@@ -1,8 +1,26 @@
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  app.enableCors();
+  app.setGlobalPrefix('/api/v1');
+
+  const config = new DocumentBuilder()
+    .setTitle('BackMEAN core')
+    .setDescription('BackMEAN API description')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/swagger', app, document, {
+    explorer: true,
+    swaggerOptions: {
+      filter: true,
+      showRequestDuration: true,
+    },
+  });
+  await app.listen(app.get('ConfigService').get('port'));
 }
 bootstrap();
