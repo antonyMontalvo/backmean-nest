@@ -1,5 +1,6 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -9,6 +10,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('BackMEAN core')
+    .addServer('http://localhost:3000')
     .setDescription('BackMEAN API description')
     .setVersion('1.0')
     .addBearerAuth()
@@ -21,6 +23,12 @@ async function bootstrap() {
       showRequestDuration: true,
     },
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
   await app.listen(app.get('ConfigService').get('port'));
 }
 bootstrap();

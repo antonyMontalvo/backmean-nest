@@ -1,5 +1,14 @@
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+
 export class CreateEmployeeDto {
-  name: string;
-  age: number;
-  breed: string;
+  @IsString()
+  @IsNotEmpty()
+  readonly name: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  readonly age: number;
+
+  @IsString()
+  readonly breed: string;
 }

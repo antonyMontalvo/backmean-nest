@@ -1,39 +1,22 @@
-import { ConfigService } from '@nestjs/config';
-import {
-  Controller,
-  Get,
-  Query,
-  Post,
-  Body,
-  Put,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  ApiTags,
-  ApiResponse,
-  ApiBody,
-  ApiQuery,
-  ApiOperation,
-  ApiParam,
-  ApiBearerAuth,
-  ApiCreatedResponse,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { EmployeeService } from './../domain/services/employee.service';
 import { CreateEmployeeDto } from './dto';
 
 @ApiTags('Empleados')
 @Controller('employees')
 export class EmployeeController {
+  constructor(private employeeService: EmployeeService) {}
+
   @UseGuards(AuthGuard('jwt'))
-  @ApiOperation({ description: 'Crear nueva Área' })
+  @ApiOperation({ summary: 'Crear nuevo empleado' })
   @ApiResponse({ status: 404, description: 'Error al crear' })
   @ApiResponse({ status: 201, description: 'Se guardaron los datos.' })
-  @ApiBody({ type: [CreateEmployeeDto] })
+  @ApiBody({ type: CreateEmployeeDto })
   @Post()
-  create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return 'This action adds a new cat';
+  create(@Body() createEmployeeDto: CreateEmployeeDto): Promise<any> {
+    return this.employeeService.createEmployee(createEmployeeDto);
   }
 
   @Get()

@@ -1,12 +1,13 @@
-import { MongooseModule } from '@nestjs/mongoose';
-import { EmployeeController } from './infrastructure/employee.controller';
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { EmployeeService } from './domain/services/employee.service';
+import { EmployeeController } from './infrastructure/employee.controller';
 import EmployesSchema from './infrastructure/repository/employee.schema';
 
+const services = [EmployeeService];
 @Module({
-    imports: [
-        MongooseModule.forFeature([{ name: 'Employee', schema: EmployesSchema }]),
-    ],
-    controllers: [EmployeeController]
+  imports: [MongooseModule.forFeature([{ name: 'Employee', schema: EmployesSchema }])],
+  controllers: [EmployeeController],
+  providers: [...services],
 })
 export class EmployeeModule {}
