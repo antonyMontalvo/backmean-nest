@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+  backmean:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    depends_on:
+      - pg
+    networks:
+      - backmean-network
+
+  pg:
+    image: postgres:12.1-alpine
+    ports:
+      - '5433:5432'
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - backmean-network
+
+networks:
+  backmean-network:

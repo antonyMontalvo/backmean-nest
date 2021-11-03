@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmployeeService } from './domain/services/employee.service';
-import { EmployeeController } from './infrastructure/employee.controller';
+import { EmployeeController } from './infrastructure/controller/employee.controller';
 import EmployesSchema from './infrastructure/repository/employee.schema';
 
 const services = [EmployeeService];

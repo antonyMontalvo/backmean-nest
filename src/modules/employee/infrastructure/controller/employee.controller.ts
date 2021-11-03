@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { EmployeeService } from './../domain/services/employee.service';
-import { CreateEmployeeDto } from './dto';
+import { EmployeeService } from '../../domain/services/employee.service';
+import { CreateEmployeeDto } from '../dto';
 
 @ApiTags('Empleados')
 @Controller('employees')
